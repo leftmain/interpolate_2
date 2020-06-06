@@ -1,0 +1,29 @@
+CFLAGS = -O3 -ffast-math
+CFLAGS = -g 
+CFLAGS += -std=c++14
+#CFLAGS += -mfpmath=sse -fstack-protector-all -g -W -Wall -Wextra -Wunused -Wcast-align -Werror -pedantic -pedantic-errors -Wfloat-equal -Wpointer-arith -Wformat-security -Wmissing-format-attribute -Wformat=1 -Wwrite-strings -Wcast-align -Wno-long-long -Woverloaded-virtual -Wnon-virtual-dtor -Wcast-qual -Wno-suggest-attribute=format
+G = g++ -pthread -lpthread
+C = g++ -pthread -lpthread
+M = Makefile header.h
+
+all: a.out
+
+a.out: main.o msr_matrix.o alg.o solver.o 
+	$G $(LFLAGS) $^ -o $@
+
+main.o: main.cpp msr_matrix.h alg.h solver.h $M
+	$C $(LFLAGS) $(CFLAGS) -c $< -o $@
+
+msr_matrix.o: msr_matrix.cpp msr_matrix.h $M
+	$C $(LFLAGS) $(CFLAGS) -c $< -o $@
+
+alg.o: alg.cpp alg.h msr_matrix.h $M
+	$C $(LFLAGS) $(CFLAGS) -c $< -o $@
+
+solver.o: solver.cpp solver.h msr_matrix.h $M
+	$C $(LFLAGS) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm *.o a.out
+
+

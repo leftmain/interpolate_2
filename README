@@ -1,0 +1,5 @@
+to build:
+
+qmake -project "QT += opengl"
+qmake
+make
